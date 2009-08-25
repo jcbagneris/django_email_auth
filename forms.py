@@ -21,7 +21,6 @@ class AuthenticationForm(OriginalAuthForm):
 
         if email and password:
             self.user_cache = authenticate(email=email, password=password)
-            print self.user_cache
             if self.user_cache is None:
                 raise forms.ValidationError(_("Please enter a correct email and password. Note that both fields are case-sensitive."))
             elif not self.user_cache.is_active:

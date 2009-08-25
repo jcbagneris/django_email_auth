@@ -27,13 +27,11 @@ def login(request, template_name='registration/login.html', redirect_field_name=
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            print 'ok form is valid'
             # Light security check -- make sure redirect_to isn't garbage.
             if not redirect_to or '//' in redirect_to or ' ' in redirect_to:
                 redirect_to = settings.LOGIN_REDIRECT_URL
             from django.contrib.auth import login
             login(request, form.get_user())
-            print 'ok user logged in'
             if request.session.test_cookie_worked():
                 request.session.delete_test_cookie()
             response = HttpResponse()
@@ -58,8 +56,6 @@ def login(request, template_name='registration/login.html', redirect_field_name=
                 response.status_code = 302
                 response['Location'] = settings.LOGIN_REDIRECT_URL
                 return response
-        else:
-            print 'form is not valid'
     else:
         # recup login cookie s'il existe
         if 'django_email_auth' in request.COOKIES:
