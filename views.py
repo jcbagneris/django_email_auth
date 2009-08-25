@@ -12,8 +12,11 @@ from django.utils.encoding import iri_to_uri
 from django.views.decorators.cache import never_cache
 from django.contrib.sites.models import Site
 from django.template import RequestContext
+from django.dispatch import Signal
 
 from django_email_auth.forms import AuthenticationForm
+
+user_logged_in = Signal(providing_args=['request',])
 
 def login(request, template_name='registration/login.html', redirect_field_name=REDIRECT_FIELD_NAME):
     """
@@ -47,6 +50,8 @@ def login(request, template_name='registration/login.html', redirect_field_name=
             else:
                 # effacer le cookie s'il existe
                 response.delete_cookie('django_email_auth')
+            # send signal "user just logged in"
+            user_logged_in.send(sender=request.user, request=request)
             # retourner à la vue appelante
             if redirect_to:
                 response.status_code = 302
