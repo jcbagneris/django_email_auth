@@ -17,6 +17,7 @@ from django.dispatch import Signal
 from django_email_auth.forms import AuthenticationForm
 
 user_logged_in = Signal(providing_args=['request',])
+user_logged_out = Signal(providing_args=['request',])
 
 def login(request, template_name='registration/login.html', redirect_field_name=REDIRECT_FIELD_NAME):
     """
@@ -85,4 +86,25 @@ def login(request, template_name='registration/login.html', redirect_field_name=
         'site_name': current_site.name,
     }, context_instance=RequestContext(request))
 login = never_cache(login)
+
+def logout(request, next_page=None, template_name='registration/logged_out.html', redirect_field_name=REDIRECT_FIELD_NAME):
+    """
+    Logs out the user and displays 'You are logged out' message.
+    Sends the user_logged_out signal.
+    """
+    from django.contrib.auth import logout
+    user_was = request.user
+    logout(request)
+    user_logged_out.send(sender=user_was, request=request)
+    if next_page is None:
+        redirect_to = request.REQUEST.get(redirect_field_name, '')
+        if redirect_to:
+            return HttpResponseRedirect(redirect_to)
+        else:
+            return render_to_response(template_name, {
+                'title': _('Logged out')
+            }, context_instance=RequestContext(request))
+    else:
+        # Redirect to this page until the session has been cleared.
+        return HttpResponseRedirect(next_page or request.path)
 
