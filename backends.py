@@ -21,7 +21,6 @@ class EmailBackend(ModelBackend):
     CUSTOM_USER_MODEL = 'yourapp.YourCustomUser' 
     """
     def authenticate(self, email=None, password=None):
-        print self.user_class
         try:
             user = self.user_class.objects.get(email=email)
         except self.user_class.DoesNotExist:
