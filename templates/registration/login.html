@@ -10,8 +10,8 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-{% if error_message %}
-<p class="errornote">{{ error_message }}</p>
+{% if form.non_field_errors %}
+<div class="errornote">{{ form.non_field_errors }}</div>
 {% endif %}
 <div id="content-main">
 <form method="post" id="login-form">
