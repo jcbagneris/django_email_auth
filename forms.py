@@ -8,6 +8,8 @@ from django.utils.translation import ugettext_lazy as _
 class AuthenticationForm(OriginalAuthForm):
     """
     Form for authenticating users on email/password credentials.
+    The difference with the original Form from contrib.auth.forms
+    is the use of the email field instead of username.
     """
     # username has to be there to override required field from orig auth form
     username = forms.CharField(required=False)
