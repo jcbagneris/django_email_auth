@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-08-29 16:41+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: backends.py:46
+#, python-format
+msgid "Could not get custom user model %s"
+msgstr "Impossible de trouver le modèle d'utilisateur étendu %s"
+
+#: forms.py:16
+msgid "Email"
+msgstr "Email"
+
+#: forms.py:17
+msgid "Remember me on this computer"
+msgstr "Se souvenir de moi sur cet ordinateur"
+
+#: forms.py:27
+msgid ""
+"Please enter a correct email and password. Note that both fields are case-"
+"sensitive."
+msgstr "Entrez un email et un mot de passe valides."
+
+#: forms.py:29
+msgid "This account is inactive."
+msgstr "Ce compte n'est plus valide."
+
+#: forms.py:34
+msgid ""
+"Your Web browser doesn't appear to have cookies enabled. Cookies are "
+"required for logging in."
+msgstr ""
+"Il semble que les cookies ne soit pas autorisés sur votre navigateur. "
+"Les cookies sont nécessaires pour cette application."
+
+#: middleware.py:38
+#, python-format
+msgid "Sorry, you are not allowed to access to %s"
+msgstr "Désolé, vous ne pouvez pas accéder à %s"
+
+#: middleware.py:43
+msgid "<h1>Forbidden</h1><p>You do not have staff privileges.</p>"
+msgstr "<h1>Page interdite</h1><p>Vous n'avez pas les autorisations suffisantes.</p>"
+
+#: views.py:105
+msgid "Logged out"
+msgstr "Déconnecté"
+
+#: templates/registration/logged_out.html:4
+msgid "Home"
+msgstr "Accueil"
+
+#: templates/registration/logged_out.html:8
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr "Merci de votre visite."
+
+#: templates/registration/logged_out.html:10
+msgid "Log in again"
+msgstr "Connectez-vous à nouveau"
+
+#: templates/registration/login.html:28
+msgid "Log in"
+msgstr "Connexion"
