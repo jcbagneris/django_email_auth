@@ -1,0 +1,90 @@
+===========================
+Email based auth for Django
+===========================
+
+`email_auth` is an email based authentication backend for Django_. It allows you to use Django's built-in authentication mechanisms and User model while authenticating User on email address instead of username.
+
+It basically re-uses the original Django auth code, passing it a custom Form to allow for email authentication. Overall application structure is based on the one used by `Django CAS`_, i.e. a custom authentication backend and a middleware to intercept calls to original login views (especially useful if you use the Django admin).
+
+.. _Django: http://djangoproject.com/
+.. _Django Cas: http://code.google.com/p/django-cas/
+
+Installation
+============
+
+Put the `email_auth` directory (or a symlink to it) somewhere in your PYTHONPATH. Hint : symlink it in `/usr/local/lib/python2.x/site-packages/` for an example.
+
+Then, reference the middleware and the backend in your `settings.py` project's file. Resulting settings may look like::
+
+	MIDDLEWARE_CLASSES = (
+		'django.middleware.gzip.GZipMiddleware',
+		'django.contrib.sessions.middleware.SessionMiddleware',
+		'django.contrib.auth.middleware.AuthenticationMiddleware',
+		'email_auth.middleware.EmailAuthMiddleware',
+		'django.middleware.locale.LocaleMiddleware',
+		'django.middleware.common.CommonMiddleware',
+	)   
+
+	AUTHENTICATION_BACKENDS = (
+		'email_auth.backends.EmailBackend',
+	)
+
+If you want to use the login and logout templates provided instead of custom ones,
+make sure that `django.template.loaders.app_directories.load_template_source` is in your TEMPLATE_LOADERS setting and add `email_auth` to your INSTALLED_APPS setting. For an example::
+
+	TEMPLATE_LOADERS = (
+		'django.template.loaders.filesystem.load_template_source',
+		'django.template.loaders.app_directories.load_template_source',
+	)
+
+	INSTALLED_APPS = (
+		'django.contrib.auth',
+		'django.contrib.contenttypes',
+		'django.contrib.sessions',
+		'django.contrib.sites',
+		'django.contrib.admin',
+		'email_auth',
+	)
+
+If you subclassed the User model instead of using the `get_profile` mechanism, use the CUSTOM_USER_MODEL setting to indicate the name of your model. `email_auth` would then return an instance of your custom user model upon successful authentication::
+
+	CUSTOM_USER_MODEL = 'coaching.Utilisateur'
+
+Finally, make sure that your project sets the required urls to log your users in and out in your urls mappings::
+
+    (r'^login/$', 'email_auth.views.login'),
+    (r'^logout/$', 'email_auth.views.logout'),
+
+Templates
+=========
+
+Templates for login and logout views are supposed to live in `registration/login.html` and `registration/logged_out.html`. Standard ones are provided with `email_auth`, put the application in your INSTALLED_APPS and use the `django.template.loaders.app_directories.load_template_source` template loader if you want to use those. Otherwise, provide yours in the `yourproject/templates/registration` folder.
+
+Signals
+=======
+
+As a convenience, signals are raised when a user logs in or out successfully::
+
+    user_logged_in = Signal(providing_args=['request',])
+    user_logged_out = Signal(providing_args=['request',])
+
+The full login or logout `request` is passed as an arg to the related signal. In addition, the sender of the logged in signal is the logged in User instance, and the sender of the logged out signal is the User instance which just logged out.
+
+Similar projects
+================
+
+Full apps
+---------
+
+https://code.launchpad.net/django-email-auth
+
+Related snippets
+----------------
+
+- http://www.djangosnippets.org/snippets/74/
+- http://www.djangosnippets.org/snippets/1590/
+
+Proposed patch to Django
+------------------------
+
+http://code.djangoproject.com/attachment/ticket/8274/authentication_form.diff
