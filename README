@@ -74,6 +74,11 @@ As a convenience, signals are raised when a user logs in or out successfully::
 
 The full login or logout `request` is passed as an arg to the related signal. In addition, the sender of the logged in signal is the logged in User instance, and the sender of the logged out signal is the User instance which just logged out.
 
+Internationalization
+====================
+
+`email_auth` uses Django internationalization mechanism. Make sure you have `django.middleware.locale.LocaleMiddleware` in your MIDDLEWARE_CLASSES settings to use it. The locale files for the French language are provided with the application. If you create locale files for other languages, feel free to fork the project and send me a pull request for those to be included in the distribution.
+
 Similar projects
 ================
 
