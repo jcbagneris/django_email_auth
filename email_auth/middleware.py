@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.views import login
 from django.utils.translation import ugettext as _
 
-from django_email_auth.views import login as email_login
+from email_auth.views import login as email_login
 
 class EmailAuthMiddleware(object):
     """
