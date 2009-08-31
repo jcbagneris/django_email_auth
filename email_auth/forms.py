@@ -27,6 +27,8 @@ class AuthenticationForm(OriginalAuthForm):
                 raise forms.ValidationError(_("Please enter a correct email and password. Note that both fields are case-sensitive."))
             elif not self.user_cache.is_active:
                 raise forms.ValidationError(_("This account is inactive."))
+        else:
+            raise forms.ValidationError(_("Please enter a correct email and password. Note that both fields are case-sensitive."))
 
         # TODO: determine whether this should move to its own method.
         if self.request:
