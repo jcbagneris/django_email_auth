@@ -10,6 +10,7 @@ from django.contrib.auth.backends import ModelBackend
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import get_model
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 
 class EmailBackend(ModelBackend):
     """
