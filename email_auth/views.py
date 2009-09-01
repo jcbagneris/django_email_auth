@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 from django.utils.encoding import iri_to_uri
 from django.views.decorators.cache import never_cache
 from django.contrib.sites.models import Site
