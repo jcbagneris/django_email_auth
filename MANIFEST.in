@@ -1,0 +1,6 @@
+include README.txt
+include LICENSE.txt
+include MANIFEST.in
+recursive-include email_auth/locale *
+recursive-include email_auth/templates *
+global-exclude *pyc
