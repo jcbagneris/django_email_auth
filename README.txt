@@ -16,7 +16,16 @@ information and usual disclaimer.
 Installation
 ============
 
-Put the `email_auth` directory (or a symlink to it) somewhere in your PYTHONPATH. Hint : symlink it in `/usr/local/lib/python2.x/site-packages/` for an example.
+The easiest and prefered way is to install from PyPI, either through pip or through
+easy_install::
+
+	$ pip install django_email_auth
+
+	$ easy_install -U django_email_auth
+
+You can download the sources as well, and install from source::
+
+	$ python setup.py install
 
 Then, reference the middleware and the backend in your `settings.py` project's file. Resulting settings may look like::
 
