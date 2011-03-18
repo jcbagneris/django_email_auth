@@ -85,7 +85,8 @@ Similar projects
 Full apps
 ---------
 
-https://code.launchpad.net/django-email-auth
+- https://code.launchpad.net/django-email-auth
+- http://pypi.python.org/pypi/django-emailauth/0.1
 
 Related snippets
 ----------------
