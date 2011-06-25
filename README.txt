@@ -6,7 +6,7 @@ Email based auth for Django
 
 It basically re-uses the original Django auth code, passing it a custom Form to allow for email authentication. Overall application structure is based on the one used by `Django CAS`_, i.e. a custom authentication backend and a middleware to intercept calls to original login views (especially useful if you use the Django admin).
 
-`email_auth` is (c) 2009 Jean-Charles Bagneris. See LICENSE for redistribution
+`email_auth` is (c) 2009-2011 Jean-Charles Bagneris. See LICENSE for redistribution
 information and usual disclaimer.
 
 
@@ -62,6 +62,12 @@ make sure that `django.template.loaders.app_directories.load_template_source` is
 If you subclassed the User model instead of using the `get_profile` mechanism, use the CUSTOM_USER_MODEL setting to indicate the name of your model. `email_auth` would then return an instance of your custom user model upon successful authentication::
 
 	CUSTOM_USER_MODEL = 'coaching.Utilisateur'
+
+If you want to use a custom login view instead of the one provided
+(email_auth.views.login), add a LOGIN_URL_MAP settings, pointing to it (thanks
+to `Wesley Mason`_ for the patch).
+
+.. _Wesley Mason: http://1stvamp.org/
 
 Finally, make sure that your project sets the required urls to log your users in and out in your urls mappings::
 

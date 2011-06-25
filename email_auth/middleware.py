@@ -45,4 +45,5 @@ class EmailAuthMiddleware(object):
 
         params = urlencode({REDIRECT_FIELD_NAME: request.get_full_path()})
         url = reverse(email_login)
+        url = reverse(getattr(settings, 'LOGIN_URL_MAP', email_login))
         return HttpResponseRedirect(url + '?' + params)
