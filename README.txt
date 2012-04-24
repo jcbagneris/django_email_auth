@@ -6,7 +6,7 @@ Email based auth for Django
 
 It basically re-uses the original Django auth code, passing it a custom Form to allow for email authentication. Overall application structure is based on the one used by `Django CAS`_, i.e. a custom authentication backend and a middleware to intercept calls to original login views (especially useful if you use the Django admin).
 
-`email_auth` is (c) 2009-2011 Jean-Charles Bagneris. See LICENSE for redistribution
+`email_auth` is (c) 2009-2012 Jean-Charles Bagneris. See LICENSE for redistribution
 information and usual disclaimer.
 
 
