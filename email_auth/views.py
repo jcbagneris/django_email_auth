@@ -40,17 +40,20 @@ def login(request, template_name='registration/login.html', redirect_field_name=
                 request.session.delete_test_cookie()
             response = HttpResponse()
             # handle "remember me" cookie
+            # effacer le cookie s'il existe
+            response.delete_cookie('django_email_auth')
             if form.cleaned_data['remember']:
-                cookie_data = encodestring('%s:%s' % 
-                    (form.cleaned_data['email'], 
-                    form.cleaned_data['password']))
-                max_age = 30*24*60*60
-                expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
-                response.set_cookie('django_email_auth', 
-                        cookie_data, max_age=max_age, expires=expires)
-            else:
-                # effacer le cookie s'il existe
-                response.delete_cookie('django_email_auth')
+                try:
+                    cookie_data = encodestring('%s:%s' %
+                        (form.cleaned_data['email'],
+                        form.cleaned_data['password']))
+                    max_age = 30*24*60*60
+                    expires = datetime.datetime.strftime(
+                            datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+                    response.set_cookie('django_email_auth',
+                            cookie_data, max_age=max_age, expires=expires)
+                except UnicodeEncodeError:
+                    pass
             # send signal "user just logged in"
             user_logged_in.send(sender=request.user, request=request)
             # retourner à la vue appelante
