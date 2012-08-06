@@ -1,0 +1,14 @@
+2012-08-06 v0.1.4
+      docs: added ref to compatible Django versions, improved templates doc
+      packaging: fixed ugly bug in setup.py, package now includes templates and locales
+      tests: more robust get_user test in BackendTests
+      tests: created func for forms doctests
+      views: stronger security check about redirection, taken from Django 1.4 login view
+      forms: better compliance with PEP8, link to the doctests
+2012-04-24 v0.1.3
+      Bumped (c) year to 2012
+      Fix crash if unable to base64.encodestring password
+2011-06-25 v0.1.2
+      Merge 1stvamp (Wesley Mason, http://github.com/1stvamp) patch to allow for custom login view, closes #2
+      Added a tests module
+      First public release
