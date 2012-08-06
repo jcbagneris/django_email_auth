@@ -6,6 +6,8 @@ Email based auth for Django
 
 It basically re-uses the original Django auth code, passing it a custom Form to allow for email authentication. Overall application structure is based on the one used by `Django CAS`_, i.e. a custom authentication backend and a middleware to intercept calls to original login views (especially useful if you use the Django admin).
 
+`email_auth` should be compatible with Django 1.3 and 1.4 versions.
+
 `email_auth` is (c) 2009-2012 Jean-Charles Bagneris. See LICENSE for redistribution
 information and usual disclaimer.
 
@@ -42,8 +44,7 @@ Then, reference the middleware and the backend in your `settings.py` project's f
 		'email_auth.backends.EmailBackend',
 	)
 
-If you want to use the login and logout templates provided instead of custom ones,
-make sure that `django.template.loaders.app_directories.load_template_source` is in your TEMPLATE_LOADERS setting and add `email_auth` to your INSTALLED_APPS setting. For an example::
+If you want to use the login and logout templates provided instead of custom ones, make sure that `django.template.loaders.app_directories.load_template_source` is in your TEMPLATE_LOADERS setting and add `email_auth` to your INSTALLED_APPS setting. In addition, these templates are only provided as examples, and require the Django admin app to work, so add it too to your INSTALLED_APPS. For an example::
 
 	TEMPLATE_LOADERS = (
 		'django.template.loaders.filesystem.load_template_source',
@@ -77,7 +78,7 @@ Finally, make sure that your project sets the required urls to log your users in
 Templates
 =========
 
-Templates for login and logout views are supposed to live in `registration/login.html` and `registration/logged_out.html`. Standard ones are provided with `email_auth`, put the application in your INSTALLED_APPS and use the `django.template.loaders.app_directories.load_template_source` template loader if you want to use those. Otherwise, provide yours in the `yourproject/templates/registration` folder.
+Templates for login and logout views are supposed to live in `registration/login.html` and `registration/logged_out.html`. Standard ones are provided with `email_auth`, put the application in your INSTALLED_APPS and use the `django.template.loaders.app_directories.load_template_source` template loader if you want to use those. Otherwise, either provide yours in a `registration` folder in your root template folder, or pass whatever names your templates have to the `template_name` parameter of `login` and `logout` views.
 
 Signals
 =======
@@ -108,6 +109,7 @@ Related snippets
 
 - http://www.djangosnippets.org/snippets/74/
 - http://www.djangosnippets.org/snippets/1590/
+- http://www.micahcarrick.com/django-email-authentication.html
 
 Proposed patch to Django
 ------------------------
