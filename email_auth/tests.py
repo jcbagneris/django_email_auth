@@ -99,10 +99,11 @@ class BackendTests(TestCase):
     def test_get_user(self):
         settings.CUSTOM_USER_MODEL = None
         user = User.objects.create_user("jsmith", "jsmith@example.com", "test123")
+        user.save()
         backend = EmailBackend()
-        u = backend.get_user(1)
+        u = backend.get_user(user.pk)
         self.assertEqual(u, user)
-        u = backend.get_user(2)
+        u = backend.get_user(0)
         self.assertEqual(u, None)
 
 from django.http import HttpResponse
