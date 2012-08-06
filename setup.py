@@ -10,6 +10,7 @@ setup(
         description='Yet another email auth system for the Django web framework',
         url="http://github.com/jcbagneris/django_email_auth",
         packages=['email_auth',],
+        include_package_data=True,
         license='BSD',
         long_description=open('README.txt').read(),
         classifiers=[
