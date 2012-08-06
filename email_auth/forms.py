@@ -10,6 +10,7 @@ class AuthenticationForm(OriginalAuthForm):
     Form for authenticating users on email/password credentials.
     The difference with the original Form from contrib.auth.forms
     is the use of the email field instead of username.
+    See doctests in the tests.py module.
     """
     # username has to be there to override required field from orig auth form
     username = forms.CharField(required=False)
@@ -24,16 +25,19 @@ class AuthenticationForm(OriginalAuthForm):
         if email and password:
             self.user_cache = authenticate(email=email, password=password)
             if self.user_cache is None:
-                raise forms.ValidationError(_("Please enter a correct email and password. Note that both fields are case-sensitive."))
+                raise forms.ValidationError(
+                    _("Please enter a correct email and password. Note that both fields are case-sensitive."))
             elif not self.user_cache.is_active:
                 raise forms.ValidationError(_("This account is inactive."))
         else:
-            raise forms.ValidationError(_("Please enter a correct email and password. Note that both fields are case-sensitive."))
+            raise forms.ValidationError(
+                _("Please enter a correct email and password. Note that both fields are case-sensitive."))
 
         # TODO: determine whether this should move to its own method.
         if self.request:
             if not self.request.session.test_cookie_worked():
-                raise forms.ValidationError(_("Your Web browser doesn't appear to have cookies enabled. Cookies are required for logging in."))
+                raise forms.ValidationError(
+                    _("Your Web browser doesn't appear to have cookies enabled. Cookies are required for logging in."))
 
         return self.cleaned_data
 
