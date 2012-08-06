@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 import datetime
+import urlparse
 from urllib import quote
 
 from django.conf import settings
@@ -19,21 +20,29 @@ from email_auth.forms import AuthenticationForm
 user_logged_in = Signal(providing_args=['request',])
 user_logged_out = Signal(providing_args=['request',])
 
-def login(request, template_name='registration/login.html', redirect_field_name=REDIRECT_FIELD_NAME):
+def login(request, template_name='registration/login.html',
+          redirect_field_name=REDIRECT_FIELD_NAME):
     """
     Displays the login form, handles the email-based login action.
     May set a "remember me" cookie.
     Adapted from django.contrib.auth.views.login
     """
     from base64 import encodestring, decodestring
-    import datetime
     redirect_to = request.REQUEST.get('next', '')
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            # Light security check -- make sure redirect_to isn't garbage.
-            if not redirect_to or '//' in redirect_to or ' ' in redirect_to:
+            netloc = urlparse.urlparse(redirect_to)[1]
+
+            # Use default setting if redirect_to is empty
+            if not redirect_to:
                 redirect_to = settings.LOGIN_REDIRECT_URL
+
+            # Heavier security check -- don't allow redirection to a different
+            # host.
+            elif netloc and netloc != request.get_host():
+                redirect_to = settings.LOGIN_REDIRECT_URL
+
             from django.contrib.auth import login
             login(request, form.get_user())
             if request.session.test_cookie_worked():
@@ -49,7 +58,10 @@ def login(request, template_name='registration/login.html', redirect_field_name=
                         form.cleaned_data['password']))
                     max_age = 30*24*60*60
                     expires = datetime.datetime.strftime(
-                            datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+                        datetime.datetime.utcnow() +
+                        datetime.timedelta(seconds=max_age),
+                        "%a, %d-%b-%Y %H:%M:%S GMT"
+                        )
                     response.set_cookie('django_email_auth',
                             cookie_data, max_age=max_age, expires=expires)
                 except UnicodeEncodeError:
@@ -66,7 +78,7 @@ def login(request, template_name='registration/login.html', redirect_field_name=
                 response['Location'] = settings.LOGIN_REDIRECT_URL
                 return response
     else:
-        # recup login cookie s'il existe
+        # get login cookie if any
         if 'django_email_auth' in request.COOKIES:
             cookie_data = decodestring(request.COOKIES['django_email_auth'])
             try:
@@ -90,7 +102,9 @@ def login(request, template_name='registration/login.html', redirect_field_name=
     }, context_instance=RequestContext(request))
 login = never_cache(login)
 
-def logout(request, next_page=None, template_name='registration/logged_out.html', redirect_field_name=REDIRECT_FIELD_NAME):
+def logout(request, next_page=None,
+           template_name='registration/logged_out.html',
+           redirect_field_name=REDIRECT_FIELD_NAME):
     """
     Logs out the user and displays 'You are logged out' message.
     Sends the user_logged_out signal.
