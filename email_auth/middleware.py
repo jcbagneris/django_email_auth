@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.urlresolvers import reverse
 from django.contrib.auth.views import login
+from django.contrib import messages
 from django.utils.translation import ugettext as _
 
 from email_auth.views import login as email_login
@@ -36,7 +37,7 @@ class EmailAuthMiddleware(object):
             elif settings.LOGIN_REDIRECT_URL:
                 message = _(
                     "Sorry, you are not allowed to access to %s" % request.path)
-                request.user.message_set.create(message=message)
+                messages.add_message(request, messages.WARNING, message)
                 return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
             else:
                 error = (
