@@ -1,3 +1,6 @@
+2012-08-08 v0.1.5
+      middleware: fixed use of old messaging API
+      templates: fixed forgottent csrf_token in login form
 2012-08-06 v0.1.4
       docs: added ref to compatible Django versions, improved templates doc
       packaging: fixed ugly bug in setup.py, package now includes templates and locales
@@ -12,3 +15,4 @@
       Merge 1stvamp (Wesley Mason, http://github.com/1stvamp) patch to allow for custom login view, closes #2
       Added a tests module
       First public release
+
